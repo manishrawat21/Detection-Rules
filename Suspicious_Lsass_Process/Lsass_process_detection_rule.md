@@ -1,3 +1,4 @@
+```
 title: Suspicious Process Access to LSASS with Full Permissions
 id: 077f2e3f-6fd3-48dc-8916-0be392129b3c
 status: experimental 
@@ -34,4 +35,4 @@ fields:
     - SourceImage
     - TargetImage
     - GrantedAccess
-
+```
