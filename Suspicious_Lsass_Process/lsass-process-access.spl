@@ -1,1 +1,1 @@
-spl
+index="apt29" EventID=10 TargetImage="*\\lsass.exe" SourceImage IN ("*\\powershell.exe", "*\\cmd.exe") GrantedAccess IN ("0x1fffff", "0x1f3fff") | table SourceImage,TargetImage,GrantedAccessspl
