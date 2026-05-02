@@ -1,13 +1,15 @@
 title: Suspicious PowerShell Execution Patterns
 id: 0fdd6acd-9878-40f7-8a82-af40c4a11a41
-description: Detects Suspicious PowerShell Execution Patterns
+description: Detects PowerShell with encoding, Office spawning PowerShell, and evasion techniques observed in APT29 attacks. Detects suspicious parent processes launching PowerShell with network activity or evasion flags.
 author: Manish Rawat
 status: experimental
-author: Manish Rawat
-date: 2026/04/23
+date: 2026-04-23
+modified: 2026-05-02
 references:
     - https://attack.mitre.org/techniques/T1059/001/
     - https://github.com/OTRF/Security-Datasets
+    - https://github.com/Manishrawat21/Detection-Rules
+    - https://manishrawat21.substack.com
 logsource:
     product: windows
     category: process_creation
@@ -53,13 +55,15 @@ detection:
             - 'DownloadFile'
             - 'Start-Process'
     condition: selection and (selection_Parameter or (selection_Process and selection_network) or (selection_Process and selection_evasion))
-falsepositive:
-    legitimate admin activity 
-    legitimate network activity
-severity: high
+falsepositives:
+    - legitimate admin activity 
+    - legitimate network activity
+level: high
 tags:
     - attack.t1027
+    - attack.obfuscation
     - attack.t1059.001
+    - attack.execution
 fields:
     - CommandLine
     - ParentImage
