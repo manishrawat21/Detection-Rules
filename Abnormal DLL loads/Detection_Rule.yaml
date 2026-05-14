@@ -1,0 +1,53 @@
+title: Suspicious Executable Activity from Temp Directories
+id: 42461076-ab43-408d-bc8d-97016a04e2cf
+description: Detects unsigned executables in Temp loading modules or DLLs, common in APT29 and malware staging
+status: experimental
+date: 2026/05/11
+author: Manish Rawat
+references:
+    - https://attack.mitre.org/techniques/T1574
+    - https://github.com/OTRF/Security-Datasets
+
+logsource:
+  product: windows
+  category: Image loaded
+detection:
+  selection:
+    EventID: 
+      - 7
+    Image|contains:
+      - \\ProgramData\\
+      - \\Temp\\
+      - \\temp\\
+  selection_ImageLoaded_location:
+      ImageLoaded|contains:
+        - \\Temp\\
+        - \\temp\\
+        - \\ProgramData\\
+  selection_ImageLoaded_exe:
+      ImageLoaded|endswith:
+        - .exe
+        - .pyd
+  selection_signaturestatus:
+      SignatureStatus: 
+         - 'Unsigned'
+         - 'Unavailable'
+         - 'Invalid'
+  selection_Signed:
+      Signed: 
+        - 'false'
+        - '-'
+  condition: 
+        (selection or selection_ImageLoaded_location) 
+        or (selection_ImageLoaded_exe and (selection_ImageLoaded_location or selection )) 
+        or (selection_signaturestatus and (selection or selection_ImageLoaded_exe or selection_ImageLoaded_location)) 
+        or (selection_Signed and (selection or selection_ImageLoaded_exe or selection_ImageLoaded_location)) 
+
+falsepositives:
+  - Software installers using temporary directories
+  - Legitimate portable applications
+  - Python development environments 
+severity: medium
+tags:
+  - attack.t1059.006
+  - attack.t1574
