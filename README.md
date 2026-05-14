@@ -14,12 +14,13 @@ This repository contains validated detection rules for adversary behaviors obser
 |----------------|-----------|----------|--------|
 | T1003.001 | [LSASS Process Access with Full Permissions](https://github.com/Manishrawat21/SOC_Dectection_Rules/blob/main/Suspicious_Lsass_Process/Lsass_process_detection_rule.yaml) | High | Tested |
 | T1059.001, T1027 | [Suspicious PowerShell Execution Patterns](https://github.com/Manishrawat21/SOC_Dectection_Rules/blob/main/Suspicious_Powershell_Commands/Detection_Rule.yaml) | High | Tested |
+| T1547, T1059.006 | [Abnormal DLL Loads](https://github.com/manishrawat21/Detection-Rules/tree/main/Abnormal%20DLL%20loads/Detection_Rule.yaml) | High | Tested |
 
 ## Rules
 
 ### Credential Access
 
-**[LSASS Process Access with Full Permissions](rules/credential-access/lsass-process-access-full-permissions.yml)**
+**[LSASS Process Access with Full Permissions](https://github.com/Manishrawat21/SOC_Dectection_Rules/blob/main/Suspicious_Lsass_Process/Lsass_process_detection_rule.yaml)**
 - **Detects:** PowerShell or cmd.exe accessing lsass.exe with GrantedAccess 0x1fffff
 - **MITRE:** T1003.001 (Credential Dumping)
 - **Validated Against:** APT29 credential dumping at 23:05:16, ProcessID 3852
@@ -36,6 +37,14 @@ This repository contains validated detection rules for adversary behaviors obser
 - **False Positives:** Medium (legitimate automation, software deployment)
 
 **Splunk Query:** [View SPL](https://github.com/Manishrawat21/SOC_Dectection_Rules/blob/main/Suspicious_Powershell_Commands/suspicious-powershell-execution.spl)
+
+**[Abnormal DLL Loads](https://github.com/manishrawat21/Detection-Rules/tree/main/Abnormal%20DLL%20loads/Detection_Rule.yaml)**
+- **Detects:** Detects unsigned executables in Temp loading modules or DLLs
+- **MITRE:** T1574(Hijacking Execution), T1059.006(Command & Scripting: Python)
+- **Validated Against:** APT29 dataset EventID 7 Malicious DLL Loading 
+- **False Positive:** Low (Legitimate files in TEMP dir, Python development env )
+
+**Splunk Query:** [View SPL](https://github.com/manishrawat21/Detection-Rules/blob/main/Abnormal%20DLL%20loads/Validated_Spl_Query.spl)
 
 ## Usage
 
